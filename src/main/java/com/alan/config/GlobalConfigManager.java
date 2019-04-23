@@ -15,13 +15,16 @@ import java.util.Iterator;
  * @Description: TODO
  */
 @Data
-public class GlobalConfig {
+public class GlobalConfigManager {
 
-    private static GlobalConfig instance;
+    private static GlobalConfigManager instance = null;
 
     private static Configuration config;
 
-    public static GlobalConfig getInstance() {
+    public static GlobalConfigManager getInstance() {
+        if (null == instance){
+            instance = new GlobalConfigManager();
+        }
         return instance;
     }
 
@@ -30,14 +33,12 @@ public class GlobalConfig {
     private String handlerpath;
     private Integer rrrrrrr;
 
-    static {
+    public void init(){
         try {
             config = new Configurations().properties(new File("global.properties"));
         } catch (ConfigurationException e) {
             e.printStackTrace();
         }
-
-        instance = new GlobalConfig();
 
         Iterator<String> keys = config.getKeys();
         while (keys.hasNext()) {

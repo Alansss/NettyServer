@@ -1,6 +1,7 @@
 package com.alan.handler.gamelogic;
 
 import com.alan.annotation.MessageCommandAnnotation;
+import com.alan.handler.message.Session;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -11,7 +12,7 @@ import io.netty.channel.ChannelHandlerContext;
 public class BattleHandler {
 
     @MessageCommandAnnotation(command = 333)
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead(Integer sessionID, byte[] msg) throws Exception {
 
         System.out.println("have a battle........");
 

@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -288,7 +289,7 @@ public class Session
         return output.toByteArray();
     }
 
-	/*public static void main(String[] args) throws Exception
+	public static void main(String[] args) throws Exception
 	{
 		Session session = new Session(0, null);
 
@@ -297,7 +298,7 @@ public class Session
 		int nTestCount = 50;
 		for(int i=0; i<nTestCount; i++)
 		{
-			byte[] msg = CreateMsg(i, new Random().nextInt(1024));
+			byte[] msg = ProtoBuffToMsgData(i, String.valueOf(new Random().nextInt(1024)).getBytes());
 			System.arraycopy(msg, 0, msgs, nSize, msg.length);
 			nSize += msg.length;
 		}
@@ -324,8 +325,9 @@ public class Session
 
 				listMsgs.add(tmp);
 
-				if(i >= nSize)
-					break;
+				if(i >= nSize) {
+                    break;
+                }
 			}
 		}
 
@@ -339,5 +341,5 @@ public class Session
 				System.out.println("id:" + ((cur[ID_POS0]<<24 & 0xFF000000) + (cur[ID_POS1]<<16 & 0x00FF0000) + (cur[ID_POS2]<<8 & 0x0000FF00) + (cur[ID_POS3]<<0)));
 			}
 		}
-    }*/
+    }
 }

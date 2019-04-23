@@ -4,6 +4,7 @@ import com.alan.handler.ServerChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -12,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class NettyServer {
+
+    private ChannelFuture serverChannelFuture;
 
     public void bind(int port) throws Exception {
 
@@ -31,20 +34,24 @@ public class NettyServer {
                 .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)//使用对象池
                 // 绑定客户端连接时候触发操作
                 .childHandler(new ServerChannelInitializer());
-        //绑定监听端口，调用sync同步阻塞方法等待绑定操作完
-        ChannelFuture future = sb.bind(port).sync();
 
-        if (future.isSuccess()) {
+        //绑定监听端口，调用sync同步阻塞方法等待绑定操作完   (用这种方式会阻塞main线程)
+        //ChannelFuture future = sb.bind(port).sync();
+
+        serverChannelFuture = sb.bind(port).sync();
+        serverChannelFuture.channel().closeFuture().addListener(ChannelFutureListener.CLOSE);
+
+        if (serverChannelFuture.isSuccess()) {
             log.info("服务端启动成功");
         } else {
             log.info("服务端启动失败");
-            future.cause().printStackTrace();
+            serverChannelFuture.cause().printStackTrace();
             bossGroup.shutdownGracefully(); //关闭线程组
             workerGroup.shutdownGracefully();
         }
 
         //成功绑定到端口之后,给channel增加一个 管道关闭的监听器并同步阻塞,直到channel关闭,线程才会往下执行,结束进程。
-        future.channel().closeFuture().sync();
+        //serverChannelFuture.channel().closeFuture().sync();
 
     }
 }

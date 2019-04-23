@@ -1,0 +1,8 @@
+package protobuf;
+option java_package = "com.alan.proto";
+
+message Cmd_Hello {
+
+    required string msg = 1;
+
+}
