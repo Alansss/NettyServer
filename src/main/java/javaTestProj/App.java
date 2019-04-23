@@ -1,13 +1,10 @@
 package javaTestProj;
 
-import com.alan.entity.RpcRequest;
 import com.alan.handler.message.Session;
-import com.alan.handler.message.SessionsManager;
 import com.alan.proto.CmdHello;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import lombok.SneakyThrows;
-
-import java.util.UUID;
 
 public class App {
 
@@ -28,7 +25,7 @@ public class App {
         CmdHello.Cmd_Hello build = CmdHello.Cmd_Hello.newBuilder().setMsg("aaaabbbbbb").build();
         byte[] bytes = Session.ProtoBuffToMsgData(333, build.toByteArray());
 //        session.SendMsg(333,);
-        channel.writeAndFlush(bytes);
+        channel.writeAndFlush(Unpooled.copiedBuffer(bytes));
 
     }
 

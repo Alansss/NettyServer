@@ -3,18 +3,9 @@ package javaTestProj;/*
  * @date 2018/10/12 20:54
  *
  */
- 
-import com.alan.bootstarp.RpcDecoder;
-import com.alan.bootstarp.RpcEncoder;
-import com.alan.entity.RpcRequest;
-import com.alan.entity.RpcResponse;
+
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -41,8 +32,8 @@ public class NettyClient {
                 public void initChannel(SocketChannel ch) throws Exception {
                     System.out.println("正在连接中...");
                     ChannelPipeline pipeline = ch.pipeline();
-                    pipeline.addLast(new RpcEncoder(RpcRequest.class)); //编码request
-                    pipeline.addLast(new RpcDecoder(RpcResponse.class)); //解码response
+//                    pipeline.addLast(new RpcEncoder(RpcRequest.class)); //编码request
+//                    pipeline.addLast(new RpcDecoder(RpcResponse.class)); //解码response
                     pipeline.addLast(new ClientHandler()); //客户端处理类
  
                 }
