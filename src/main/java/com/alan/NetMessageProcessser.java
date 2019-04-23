@@ -2,7 +2,7 @@ package com.alan;
 
 import com.alan.annotation.MessageCommandAnnotation;
 import com.alan.common.ClassScanner;
-import com.alan.common.SessionManager;
+import com.alan.handler.message.SessionsManager;
 import com.alan.config.GlobalConfig;
 import com.google.common.collect.Maps;
 import io.netty.channel.ChannelHandlerContext;
@@ -80,7 +80,7 @@ public class NetMessageProcessser {
             //取到玩家id
             String playerId = "";
 
-            ChannelHandlerContext ctxByPlayerId = SessionManager.getInstance().getCtxByPlayerId(playerId);
+            ChannelHandlerContext ctxByPlayerId = SessionsManager.getInstance().getCtxByPlayerId(playerId);
 
             Method method = handlerMethods.get(cmd);
             Object handler = handlers.get(cmd);

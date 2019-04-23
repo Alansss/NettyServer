@@ -1,0 +1,44 @@
+package protobuf;
+option java_package = "com.alan.proto"; 
+
+
+
+message Msg_Arena_Sync
+{
+	message Msg_ArenaPlayer
+	{
+		required int64 uid = 1;
+		required string playerName = 2;
+		required int32 rank = 3;
+		required int32 powerPoint = 4;
+		required int32 rewardType = 5;
+		repeated Msg_ArenaHero arenaHeros = 6;
+	}
+	
+	message Msg_ArenaHero
+	{
+		required int32 metaId = 1;
+		required int32 level = 2;
+		required int32 armyType = 3;
+		required int32 pos = 4;
+		optional int32 skill0_id = 5;
+		optional int32 skill0_level = 6;
+		optional int32 skill1_id = 7;
+		optional int32 skill1_level = 8;
+		optional int32 skill2_id = 9;
+		optional int32 skill2_level = 10;
+	}
+	
+	required int32 arenaId = 1;
+	required int64 beginTime = 2;
+	required int64 closeTime = 3;
+	required int32 rank = 4;
+	required int32 powerPoint = 5;
+	required int32 bestRank = 6;
+	required int32 arenaState = 7;
+	required int32 battleTimes = 8;
+	required int32 buybattleTimes = 9;
+	repeated Msg_ArenaPlayer opponents = 10;
+	required string legions = 11;
+	repeated Msg_ArenaPlayer arenaPlayers = 12;
+}

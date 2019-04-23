@@ -1,0 +1,17 @@
+package protobuf;
+option java_package = "com.alan.proto";
+
+message Cmd_Arena_Battle
+{
+	message Msg_legion
+	{
+		required int32 index = 1;
+		required int64 heroId = 2;
+	}
+	
+	
+  required int32 opponentRank = 1;
+  required int64 opponentUid = 2;
+  required int32 myRank = 3;
+  repeated Msg_legion legions = 4;
+}
