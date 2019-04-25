@@ -1,13 +1,11 @@
 package com.alan.handler.gamelogic;
 
 import com.alan.annotation.MessageCommandAnnotation;
-import com.alan.db.DBInsetTest;
-import com.alan.db.DatabaseManager;
-import com.alan.handler.message.Session;
 import com.alan.handler.message.SessionsManager;
 import com.alan.proto.CmdHello;
 import com.alan.proto.MsgHello;
-import io.netty.channel.ChannelHandlerContext;
+import com.google.inject.Inject;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 /**
  * @Auther: Wang Lijie
@@ -16,14 +14,17 @@ import io.netty.channel.ChannelHandlerContext;
  */
 public class BattleHandler {
 
+    @Inject
+    private BattleService battleService;
+
     @MessageCommandAnnotation(command = 333)
-    public void channelRead(int sessionID, byte[] msg) throws Exception {
+    public void channelRead(int sessionID, byte[] msg) throws InvalidProtocolBufferException {
 
         CmdHello.Cmd_Hello cmd_hello = CmdHello.Cmd_Hello.parseFrom(msg);
 
         System.out.println(cmd_hello.getMsg());
 
-        DatabaseManager.getInstance().sengMsgToDatabase(new DBInsetTest(111,cmd_hello.getMsg()));
+        battleService.doBattle(cmd_hello.getMsg());
 
         SessionsManager.GetInstance().SendMsgToClient(sessionID,333,
                 MsgHello.Msg_Hello.newBuilder().setMsg("for server bbbbb").build());

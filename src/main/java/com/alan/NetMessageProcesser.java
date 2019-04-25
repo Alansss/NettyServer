@@ -2,10 +2,12 @@ package com.alan;
 
 import com.alan.annotation.MessageCommandAnnotation;
 import com.alan.common.ClassScanner;
+import com.alan.config.GlobalConfigManager;
 import com.alan.handler.message.NetMsgBuffer;
 import com.alan.handler.message.NetMsgBufferNode;
-import com.alan.config.GlobalConfigManager;
 import com.google.common.collect.Maps;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationTargetException;
@@ -47,11 +49,8 @@ public class NetMessageProcesser {
                     MessageCommandAnnotation messageCommandAnnotation = method.getAnnotation(MessageCommandAnnotation.class);
                     if (messageCommandAnnotation != null) {
                         handlerMethods.put(messageCommandAnnotation.command(), method);
-                        try {
-                            handlers.put(messageCommandAnnotation.command(), clazz.newInstance());
-                        } catch (InstantiationException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Injector injector = Guice.createInjector();
+                        handlers.put(messageCommandAnnotation.command(), injector.getInstance(clazz));
                     }
                 }
             }
