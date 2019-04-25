@@ -31,4 +31,18 @@ public class BattleHandler {
 
     }
 
+    @MessageCommandAnnotation(command = 222)
+    public void channelRead2(int sessionID, byte[] msg) throws InvalidProtocolBufferException {
+
+        CmdHello.Cmd_Hello cmd_hello = CmdHello.Cmd_Hello.parseFrom(msg);
+
+        System.out.println(cmd_hello.getMsg());
+
+        battleService.doBattle(cmd_hello.getMsg());
+
+        SessionsManager.GetInstance().SendMsgToClient(sessionID,222,
+                MsgHello.Msg_Hello.newBuilder().setMsg("for server cccccc").build());
+
+    }
+
 }

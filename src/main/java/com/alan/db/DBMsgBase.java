@@ -11,13 +11,14 @@ import java.sql.SQLException;
  */
 public class DBMsgBase {
 
-    public Integer DBMsgID;
+    private Integer DBMsgID;
 
-    public DBMsgBase(Integer DBMsgID) {
-        DBMsgID = DBMsgID;
+    DBMsgBase(Integer DBMsgID) {
+        this.DBMsgID = DBMsgID;
     }
 
     public PreparedStatement callStoreProcedure(Connection connection) throws SQLException {
         return null;
     }
+
 }

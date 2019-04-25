@@ -25,7 +25,7 @@ public class NetMessageProcesser {
 
     //private final Queue<String> netMessagesQueue = new ConcurrentLinkedDeque<>();
 
-    Map<Integer, Method> handlerMethods = Maps.newHashMap();
+    private Map<Integer, Method> handlerMethods = Maps.newHashMap();
 
     private Map<Integer, Object> handlers = Maps.newHashMap();
 
@@ -43,14 +43,19 @@ public class NetMessageProcesser {
         Map<String, Class<?>> scannerClass = ClassScanner.scannerClass(handlerpath);
         scannerClass.forEach((classname, clazz) -> {
 
+            Injector injector = Guice.createInjector();
+            Object instance = null;
+
             Method[] methods = clazz.getMethods();
             for (Method method : methods) {
                 if (method.isAnnotationPresent(MessageCommandAnnotation.class)) {
                     MessageCommandAnnotation messageCommandAnnotation = method.getAnnotation(MessageCommandAnnotation.class);
                     if (messageCommandAnnotation != null) {
                         handlerMethods.put(messageCommandAnnotation.command(), method);
-                        Injector injector = Guice.createInjector();
-                        handlers.put(messageCommandAnnotation.command(), injector.getInstance(clazz));
+                        if (null == instance) {
+                            instance = injector.getInstance(clazz);
+                        }
+                        handlers.put(messageCommandAnnotation.command(), instance);
                     }
                 }
             }

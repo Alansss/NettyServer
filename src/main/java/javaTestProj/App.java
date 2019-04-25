@@ -24,8 +24,10 @@ public class App {
 
         CmdHello.Cmd_Hello build = CmdHello.Cmd_Hello.newBuilder().setMsg("aaaabbbbbb").build();
         byte[] bytes = Session.ProtoBuffToMsgData(333, build.toByteArray());
+        byte[] bytes2 = Session.ProtoBuffToMsgData(222, build.toByteArray());
 //        session.SendMsg(333,);
         channel.writeAndFlush(Unpooled.copiedBuffer(bytes));
+        channel.writeAndFlush(Unpooled.copiedBuffer(bytes2));
 
     }
 
