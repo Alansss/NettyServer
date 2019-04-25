@@ -37,7 +37,7 @@ public class NetMessageProcesser {
     }
 
     public void init() {
-        String handlerpath = GlobalConfigManager.getInstance().getHandlerpath();
+        String handlerpath = GlobalConfigManager.getInstance().getHandlerPath();
         Map<String, Class<?>> scannerClass = ClassScanner.scannerClass(handlerpath);
         scannerClass.forEach((classname, clazz) -> {
 

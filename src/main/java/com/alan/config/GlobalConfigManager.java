@@ -1,5 +1,6 @@
 package com.alan.config;
 
+import com.alan.utils.ConvertNameUtil;
 import lombok.Data;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
@@ -28,10 +29,11 @@ public class GlobalConfigManager {
         return instance;
     }
 
-    private String aaa;
-    private String ffffffsdf;
-    private String handlerpath;
-    private Integer rrrrrrr;
+    private String handlerPath;
+    private String driverClassName;
+    private String dbUrl;
+    private String dbUsername;
+    private String dbPassword;
 
     public void init(){
         try {
@@ -45,9 +47,8 @@ public class GlobalConfigManager {
             String key = keys.next();
             String value = config.getString(key);
             try {
-                Field field = instance.getClass().getDeclaredField(key);
+                Field field = instance.getClass().getDeclaredField(ConvertNameUtil.camelCaseName(key));
                 field.setAccessible(true);
-
                 if ("java.lang.Integer".equals(field.getGenericType().getTypeName())) {
                     field.set(instance, Integer.parseInt(value));
                 } else if ("java.lang.Long".equals(field.getGenericType().getTypeName())) {
@@ -56,6 +57,8 @@ public class GlobalConfigManager {
                     field.set(instance, Double.parseDouble(value));
                 } else if ("java.lang.Float".equals(field.getGenericType().getTypeName())) {
                     field.set(instance, Float.parseFloat(value));
+                }else if ("java.lang.Boolean".equals(field.getGenericType().getTypeName())) {
+                    field.set(instance, Boolean.parseBoolean(value));
                 } else {
                     field.set(instance, value);
                 }

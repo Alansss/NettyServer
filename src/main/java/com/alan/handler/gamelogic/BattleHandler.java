@@ -1,6 +1,8 @@
 package com.alan.handler.gamelogic;
 
 import com.alan.annotation.MessageCommandAnnotation;
+import com.alan.db.DBInsetTest;
+import com.alan.db.DatabaseManager;
 import com.alan.handler.message.Session;
 import com.alan.handler.message.SessionsManager;
 import com.alan.proto.CmdHello;
@@ -20,6 +22,8 @@ public class BattleHandler {
         CmdHello.Cmd_Hello cmd_hello = CmdHello.Cmd_Hello.parseFrom(msg);
 
         System.out.println(cmd_hello.getMsg());
+
+        DatabaseManager.getInstance().sengMsgToDatabase(new DBInsetTest(111,cmd_hello.getMsg()));
 
         SessionsManager.GetInstance().SendMsgToClient(sessionID,333,
                 MsgHello.Msg_Hello.newBuilder().setMsg("for server bbbbb").build());
