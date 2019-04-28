@@ -6,10 +6,13 @@ package javaTestProj;
 import com.alan.handler.message.NetMsgBufferNode;
 import com.alan.handler.message.Session;
 import com.alan.log.NetLog;
+import com.alan.proto.CmdConst;
 import com.alan.proto.MsgHello;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import javaTestProj.clientlogic.BattleHandler;
+import javaTestProj.clientlogic.ChatHandler;
 
 import java.util.ArrayList;
 
@@ -30,8 +33,18 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
                 NetLog.Log(" Session: " + tmp.GetSessionID() + "  CmdID: " + tmp.GetID());
             }
             //NetMsgBuffer.GetInstance().PutMsg(tmp);
-            MsgHello.Msg_Hello msg_hello = MsgHello.Msg_Hello.parseFrom(tmp.GetProtoMsg());
-            System.out.println(msg_hello.toString());
+            switch (tmp.GetID()) {
+                case CmdConst.Cmd_ID.DOBATTLE_VALUE:
+                    BattleHandler battleHandler = new BattleHandler();
+                    battleHandler.handleMsg(MsgHello.Msg_Hello.parseFrom(tmp.GetProtoMsg()));
+                    break;
+                case CmdConst.Cmd_ID.CHAT_VALUE:
+                    ChatHandler chatHandler = new ChatHandler();
+                    chatHandler.handleMsg(MsgHello.Msg_Hello.parseFrom(tmp.GetProtoMsg()));
+                    break;
+                default:
+            }
+
         }
         buf.release();
     }

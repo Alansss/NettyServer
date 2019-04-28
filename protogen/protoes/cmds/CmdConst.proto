@@ -1,0 +1,9 @@
+package protobuf;
+option java_package = "com.alan.proto";
+
+enum Cmd_ID {
+
+    DOBATTLE = 0;
+    CHAT = 1;
+
+}
