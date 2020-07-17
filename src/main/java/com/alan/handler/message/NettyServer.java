@@ -1,6 +1,5 @@
-package com.alan.bootstarp;
+package com.alan.handler.message;
 
-import com.alan.handler.ServerChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelFuture;

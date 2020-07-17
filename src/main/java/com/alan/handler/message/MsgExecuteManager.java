@@ -1,6 +1,5 @@
-package com.alan.bootstarp;
+package com.alan.handler.message;
 
-import com.alan.NetMessageProcesser;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import java.util.concurrent.LinkedBlockingQueue;

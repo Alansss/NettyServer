@@ -1,4 +1,4 @@
-package com.alan.handler;
+package com.alan.handler.message;
 
 import com.alan.handler.message.ServerHandler;
 import io.netty.channel.ChannelInitializer;

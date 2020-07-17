@@ -1,4 +1,4 @@
-package com.alan.bootstarp;
+package com.alan.handler.message;
 /*
  * 编码器（将实体类转换成可传输的数据）
  */

@@ -1,10 +1,8 @@
-package com.alan;
+package com.alan.handler.message;
 
 import com.alan.annotation.MessageCommandAnnotation;
 import com.alan.common.ClassScanner;
 import com.alan.config.GlobalConfigManager;
-import com.alan.handler.message.NetMsgBuffer;
-import com.alan.handler.message.NetMsgBufferNode;
 import com.google.common.collect.Maps;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -18,7 +16,7 @@ import java.util.Queue;
 /**
  * @Auther: Wang Lijie
  * @Date: 2019/4/17 17:20
- * @Description: TODO
+ * @Description: 分发消息
  */
 @Slf4j
 public class NetMessageProcesser {
@@ -62,7 +60,6 @@ public class NetMessageProcesser {
 
         });
 
-
         log.info("handlerMethods.size:" + handlerMethods.size());
         log.info("handlers.size:" + handlers.size());
     }
@@ -79,7 +76,7 @@ public class NetMessageProcesser {
 
         Queue<NetMsgBufferNode> netMsgBufferNodes = NetMsgBuffer.GetInstance().GetMsgs();
         for (NetMsgBufferNode netMsgBufferNode : netMsgBufferNodes) {
-            int sessionID = netMsgBufferNode.GetSessionID();
+            int sessionId = netMsgBufferNode.GetSessionID();
             byte[] bytes = netMsgBufferNode.GetProtoMsg();
 
             //取到消息的类型
@@ -90,13 +87,13 @@ public class NetMessageProcesser {
             //Session session = SessionsManager.GetInstance().GetSession(sessionID);
             //System.out.println("id:" + ((cur[ID_POS0]<<24 & 0xFF000000) + (cur[ID_POS1]<<16 & 0x00FF0000) + (cur[ID_POS2]<<8 & 0x0000FF00) + (cur[ID_POS3]<<0)));
 
-            int cmdID = netMsgBufferNode.GetID();
+            int cmdId = netMsgBufferNode.GetID();
 
-            Method method = handlerMethods.get(cmdID);
-            Object handler = handlers.get(cmdID);
+            Method method = handlerMethods.get(cmdId);
+            Object handler = handlers.get(cmdId);
             method.setAccessible(true);
             try {
-                Object object = method.invoke(handler, sessionID, bytes);
+                Object object = method.invoke(handler, sessionId, bytes);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }

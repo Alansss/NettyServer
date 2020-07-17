@@ -1,5 +1,7 @@
 package com.alan.common;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -11,6 +13,7 @@ import java.util.Map;
  * @author wanglijie
  * 消息扫描器
  */
+@Slf4j
 public class ClassScanner {
 
     //扫描包
@@ -22,13 +25,13 @@ public class ClassScanner {
     public static Map<String, Class<?>> scannerClass(String packagePath) {
         //
         String filePath = packagePath.replace(".", "/") + "/";
-        System.out.println(filePath);
+        log.info("filePath:{}", filePath);
 
         Map<String, Class<?>> classes = new HashMap<>();
 
         //取得路径对象
         URL url = Thread.currentThread().getContextClassLoader().getResource(filePath);
-        System.out.println(url.getPath());
+        log.info("filePath:{}", url.getPath());
         //判断文件是文件还是文件夹
         if ("file".equals(url.getProtocol())) {
             String path = url.getPath();

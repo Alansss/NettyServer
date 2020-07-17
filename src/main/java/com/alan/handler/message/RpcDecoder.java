@@ -1,4 +1,4 @@
-package com.alan.bootstarp;
+package com.alan.handler.message;
 /*
  * 解码器（将接收的数据转换成实体类）
  */
